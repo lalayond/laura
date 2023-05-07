@@ -1,7 +1,7 @@
 1. Mostrar los títulos de los libros con la etiqueta "titulo".
 
 for $title in /bookstore/book/title/text()
-return <title>{$title}</title>
+return $title
 
 2. Mostrar los libros cuyo precio sea menor o igual a 30. Primero incluyendo la condición en la cláusula "where" y luego en la ruta del XPath.
 
@@ -17,7 +17,7 @@ return $book/title
 4. Mostrar sólo el título sin atributos de los libros cuyo precio sea menor o igual a 30.
 
 for $book in /bookstore/book[price<=30]
-return <title>{$book/title/text()}</title>
+return $book/title/text()
 
 5. Mostrar el título y el autor de los libros del año 2005, y etiquetar cada uno de ellos con "lib2005".
 
@@ -28,12 +28,12 @@ return <lib2005>{$libro/title}{$libro/author}</lib2005>
 6. Mostrar los años de publicación, primero con "for" y luego con "let" para comprobar la diferencia entre ellos. Etiquetar la salida con "publicacion".
 
 for $year in /bookstore/book/year
-return <publicacion>{$year}</publicacion>
+return $year
 
 --con let--
 
 let $year := /bookstore/book/year
-return <publicacion>{$year}</publicacion>
+return $year 
 
 7. Mostrar los libros ordenados primero por "category" y luego por "title" en una sola consulta.
 
@@ -44,14 +44,14 @@ return $book
 8. Mostrar cuántos libros hay, y etiquetarlo con "total".
 
 let $num_book := count(/bookstore/book)
-return <total>{$num_libro}</total>
+return $num_libro
 
 9. Mostrar los títulos de los libros y al final una etiqueta con el número total de libros.
 
 let $total := count (/bookstore/book),
     $titles := (
       for $book in /bookstore/book/title 
-      return <titulo>{$book/text()}</titulo>) 
+      return $book/text()) 
 return 
       <resultado>
         {$titles}
