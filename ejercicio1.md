@@ -120,29 +120,59 @@ return <precio>{ $book/price/text() }</precio>|<total>{ sum($books/price) }</tot
 ### 14.	Mostrar el título y el número de autores que tiene cada título en etiquetas diferentes.
 ```
 for $book in bookstore/book
-  return <title>{ $book/title/text() }</title>|<num_autor>{ count($book/author) }</num_autor>
+  return <titulo>{ $book/title/text() }</titulo>|<num_autor>{ count($book/author) }</num_autor>
 ```
 ### 15.	Mostrar en la misma etiqueta el título y entre paréntesis el número de autores que tiene ese título.
 ```
+for $book in bookstore/book
+return
+<libro>{ $book/title/text() } ({ count($book/author) })</libro>
 ```
 ### 16.	Mostrar los libros escritos en años que terminen en "3".
 ```
+for $book in bookstore/book
+where ends-with($book/year, '3')
+return $book
 ```
 ### 17.	Mostrar los libros cuya categoría empiece por "C".
 ```
+for $book in /bookstore/book
+where starts-with($book/@category,'C')
+return $book
+
 ```
 ### 18.	Mostrar los libros que tengan una "X" mayúscula o minúscula en el título.
 ```
+for $book in bookstore/book
+where contains($book/title, 'X')
+return $book/title
 ```
 ### 19.	Mostrar el título y el número de caracteres que tiene cada título, cada uno con su propia etiqueta.
 ```
+for $book in /bookstore/book/title/text()
+return <titulo>{$book}</titulo>|<num_caracteres>{string-length($book)}</num_caracteres>
+
 ```
 ### 20.	Mostrar todos los años en los que se ha publicado un libro eliminando los repetidos. Etiquétalos con "año".
 ```
+distinct-values(
+  for $book in /bookstore/book/year/text()
+return $book
+)
+
 ```
 ### 21.	Mostrar todos los autores eliminando los que se repiten y ordenados por el número de caracteres que tiene cada autor.
 ```
+distinct-values (
+  for $book in /bookstore/book/author/text()
+  order by (string-length($book))
+  return $book
+)
+
 ```
 ### 22.	Mostrar los títulos en una tabla de HTML.
 ```
+  for $book in /bookstore/book
+  return <tr><td>{ $book/title }</td></tr>
+
 ```
